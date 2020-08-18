@@ -43,3 +43,4 @@ except:
 #첫 번째 결과 출력
 # elem = broswer.find_element_by_xpath("//*[@id='content']/div[2]/div/div[4]/ul/li[1]")
 # %%
+
