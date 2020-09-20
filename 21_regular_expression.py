@@ -19,5 +19,7 @@ def regular_expression():
     for churl in chapter_url:
         print(churl.get_text())
         print(churl["href"]+"\n")
+        
 if __name__ == "__main__":
     regular_expression()
+
