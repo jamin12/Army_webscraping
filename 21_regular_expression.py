@@ -10,6 +10,7 @@ def into_request(url):
     soup = BeautifulSoup(res.text,"lxml")
     return soup
 
+#정규식 사이트(좀 잘나와 있음)
 def regular_expression():
     url = "https://greeksharifa.github.io/%EC%A0%95%EA%B7%9C%ED%91%9C%ED%98%84%EC%8B%9D(re)/2018/08/04/regex-usage-05-intermediate/"
     soup = into_request(url)

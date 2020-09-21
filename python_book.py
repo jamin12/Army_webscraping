@@ -1,23 +1,6 @@
 import collections
 import re
-def solution(bridge_length, weight, truck_weights):
-    answer = 1
-    t = collections.deque()
-    truck_weights.reverse()
-    deq = collections.deque()
- 
-    while True:
-        if t:
-            t = collections.deque(map(lambda x: x+1,t))
-            answer += 1
-        if truck_weights and sum(deq) + truck_weights[-1] <= weight:
-            deq.append(truck_weights.pop())
-            t.append(0)
-        if t[0] == bridge_length:
-            t.popleft()
-            deq.popleft()
-        if not deq and not truck_weights:
-            return answer
+
         
 def panrindrom(pan_str):
     pan_str = pan_str.lower()
@@ -72,12 +55,6 @@ def longestPalindrome(s):
                         key=len)
     return result
 if __name__ == '__main__':
-#####################################################################################################
-    # 프로그래머스 다리위를 지나는 트럭
-    # solution(2,10,[7,4,5,6])
-    # solution(100,100,[10,10,10,10,10,10,10,10,10,10])
-    # solution(100,100,[10])
-
 #####################################################################################################
     #팰린드롬(거꾸로 뒤집어도 같은 글자)    
     # panrindrom("A man, a plan, a canal: Panama")
