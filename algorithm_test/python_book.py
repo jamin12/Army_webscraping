@@ -38,6 +38,7 @@ def group_Anagrams(strs):
     return anagrams.values()
 
 def longestPalindrome(s):
+    #이해가 안됨 진짜로 이건 ....
     def expand(left,right):
         while left >= 0 and right <= len(s) and s[left] == s[right-1]:
             left -= 1
@@ -54,6 +55,7 @@ def longestPalindrome(s):
                         expand(i,i+2),
                         key=len)
     return result
+
 if __name__ == '__main__':
 #####################################################################################################
     #팰린드롬(거꾸로 뒤집어도 같은 글자)    
