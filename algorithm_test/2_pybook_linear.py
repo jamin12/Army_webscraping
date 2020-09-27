@@ -28,23 +28,64 @@ def twoSum(nums, target):
 
 def trap(height):
     #투 포인터를 최대로 이동
-    if not height:
-        return 0
+    # if not height:
+    #     return 0
     
-    volume = 0
-    left,right = 0 ,len(height)-1
-    left_max , right_max = height[left], height[right]
+    # volume = 0
+    # left,right = 0 ,len(height)-1
+    # left_max , right_max = height[left], height[right]
 
-    while left<right:
-        left_max, right_max = max(height[left],left_max), max(height[right],right_max)
+    # while left<right:
+    #     left_max, right_max = max(height[left],left_max), max(height[right],right_max)
         
-        if left_max <= right_max:
-            volume += left_max - height[left]
-            left += 1
-        else :
-            volume += right_max - height[right]
-            right -= 1
+    #     if left_max <= right_max:
+    #         volume += left_max - height[left]
+    #         left += 1
+    #     else :
+    #         volume += right_max - height[right]
+    #         right -= 1
+    # return volume
+
+    #스택을 이용해 풀이
+    stack = []
+    volume = 0
+    for i in range(len(height)):
+        while stack and height[i] > height[stack[-1]]:
+            top = stack.pop()
+
+            if not len(stack):
+                break
+            
+
+            distance = i - stack[-1] -1
+            waters = min(height[i],height[stack[-1]]) - height[top]
+
+            volume += distance * waters
+
+        stack.append(i)
     return volume
+
+def threesum(nums):
+    result = []
+    nums.sort()
+
+    for i in range(len(nums) - 1):
+        left , right = i + 1, len(nums) - 1
+        if i > 0 and nums[i] == nums[-1]:
+            continue
+        while left<right :
+            if [nums[i],nums[left],nums[right]] in result:
+                break
+            if nums[i] + nums[left] + nums[right] == 0:
+                result.append([nums[i],nums[left],nums[right]]) 
+            if nums[i] + nums[left] + nums[right] > 0:
+                right -= 1
+            else :
+                left += 1
+
+    print(result)
+    return result
+
 
 
 if __name__ == '__main__':
@@ -53,4 +94,10 @@ if __name__ == '__main__':
     # twoSum([2,7,11,15],9)
 ##########################################################################
     #빗물 트래핑 // 높이를 입력받아 비온 후 얼마나 많은 물이 쌓일 수 있는지 계산하라
-    trap([0,1,0,2,1,0,1,3,2,1,2,1])
+    #이건 진짜 이해를 못하겠네 수발 ㅡㅡ
+    # trap([0,1,0,2,1,0,1,3,2,1,2,1])
+##########################################################################
+    #세 수의 합 //배열을 입력 받아 합으로 0을 만들 수 있는 3개의 엘리 먼트를 출력해라
+    threesum([-1,0,1,2,-1,-4])
+
+
