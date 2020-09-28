@@ -66,26 +66,105 @@ def trap(height):
     return volume
 
 def threesum(nums):
-    result = []
+    #내 풀이
+    # result = []
+    # nums.sort()
+
+    # for i in range(len(nums) - 1):
+    #     left , right = i + 1, len(nums) - 1
+    #     if i > 0 and nums[i] == nums[-1]:
+    #         continue
+    #     while left<right :
+    #         if [nums[i],nums[left],nums[right]] in result:
+    #             break
+    #         if nums[i] + nums[left] + nums[right] == 0:
+    #             result.append([nums[i],nums[left],nums[right]]) 
+    #         # nums를 정렬 했기 때문에 더한게 0보다 크면 오른쪽을 옮김
+    #         if nums[i] + nums[left] + nums[right] > 0:
+    #             right -= 1
+    #         else :
+    #             left += 1
+    # return result
+    # 책 풀이
+    results = []
     nums.sort()
 
-    for i in range(len(nums) - 1):
-        left , right = i + 1, len(nums) - 1
-        if i > 0 and nums[i] == nums[-1]:
+    for i in range(len(nums) - 2):
+        if i > 0 and nums[i] == nums[i-1]:
             continue
-        while left<right :
-            if [nums[i],nums[left],nums[right]] in result:
-                break
-            if nums[i] + nums[left] + nums[right] == 0:
-                result.append([nums[i],nums[left],nums[right]]) 
-            if nums[i] + nums[left] + nums[right] > 0:
-                right -= 1
-            else :
+        left ,right = i + 1 ,len(nums) - 1
+        while left < right:
+            sums = nums[i] + nums[left] + nums[right]
+            if sums < 0:
                 left += 1
+            elif sums > 0:
+                right -= 1
+            else:
+                results.append((nums[i],nums[left],nums[right]))
+                
+                #같은 값이 있으면 무의미 하기 때문에 스킵
+                while left < right and nums[left] == nums[left + 1]:
+                    left += 1
+                while left < right and nums[right] == nums[right - 1]:
+                    right -= 1
+                #어차피 합이 0 이고 한쪽만 움직여봤자 당연하게 0이 아니게 된다 그러므로 둘다 움직임
+                left += 1 
+                right -= 1
 
-    print(result)
-    return result
+    return results
 
+
+
+def arrayPairSum(nums):
+    # # 내 풀이
+    # nums.sort()
+    # def divive_list(l,n):
+    #     for i in range(0,len(l),n):
+    #         yield l[i:i+n] # yield 를 이용해 리스트를 2 씩 나눴다 yield : 반환 값이 하나가 아닌 여러게로 할 수 있게 해줌
+    # divied = list(divive_list(nums,2))
+    # # print(divied)
+    # result = []
+    # for x,y in divied:
+    #     result.append(min(x,y))
+
+    # return sum(result)
+    # 책 풀이 : 오름차순 풀이
+    # sum = 0
+    # pair = []
+    # nums.sort()
+
+    # for n in nums:
+    #     pair.append(n)
+    #     #페어의 길이가 2가되면(즉 두개씩 나누게 되는 것임) 최솟값을 구하고 다시 비워준다
+    #     if len(pair) == 2:
+    #         sum += min(pair)
+    #         pair = []
+    
+    #짝수 번째 값 계산 : 어차피 짝수 번째 숫자가 더해 질거니 이렇게 함
+    # sums = 0
+    # nums.sort()
+
+    # for i, n in enumerate(nums):
+    #     if i % 2 == 0:
+    #         sums += n
+
+    # return sums
+    #파이썬 다운 방식 : 이건 진짜 생각도 못함
+    return sum(sorted(nums)[::2])
+
+def productExceptSelf(nums):
+    # 내 풀이 : 하지만 나눗셈을 하지 말라는걸 나중에 봄....
+    def mutiply(li):
+        muti = 1
+        for i in li:
+            if i == 0:
+                return 0
+            muti *= i
+        return muti
+    # return [mutiply(nums) / i for i in nums]
+    a = []
+    for i in nums:
+        
 
 
 if __name__ == '__main__':
@@ -98,6 +177,12 @@ if __name__ == '__main__':
     # trap([0,1,0,2,1,0,1,3,2,1,2,1])
 ##########################################################################
     #세 수의 합 //배열을 입력 받아 합으로 0을 만들 수 있는 3개의 엘리 먼트를 출력해라
-    threesum([-1,0,1,2,-1,-4])
+    # threesum([-1,0,1,2,-1,-4])
+##########################################################################
+    #n개의 페어를 이용한 min(a,b)의 합으로 만들 수 있는 가장 큰 수를 출력하라.
+    # print(arrayPairSum([1,4,3,2]))
+##########################################################################
+    # 자신을 제외한 배열의 곱 : 배열은 입력받아 output[i]가 자신을 제외한 나머지 요소의 곱셈 결과가 되도록 출력하라
+    print(productExceptSelf([1,2,3,4]))
 
 
