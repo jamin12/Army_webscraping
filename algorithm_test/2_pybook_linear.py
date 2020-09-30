@@ -1,5 +1,6 @@
 import collections
 import re
+import sys
 
 def twoSum(nums, target):
     #브루트 포스로 계산(모든 인수를 하나하나 더해서 답을 구함) 시간복잡도 높음 효율성이 매우 떨어짐
@@ -154,16 +155,44 @@ def arrayPairSum(nums):
 
 def productExceptSelf(nums):
     # 내 풀이 : 하지만 나눗셈을 하지 말라는걸 나중에 봄....
-    def mutiply(li):
-        muti = 1
-        for i in li:
-            if i == 0:
-                return 0
-            muti *= i
-        return muti
+    # def mutiply(li):
+    #     muti = 1
+    #     for i in li:
+    #         if i == 0:
+    #             return 0
+    #         muti *= i
+    #     return muti
     # return [mutiply(nums) / i for i in nums]
-    a = []
-    for i in nums:
+    #책 풀이
+    #정확한 이유는 모르겠지만 왼쪽으로 곱한거랑 오른쪽으로 곱한거랑 곱하면 된대.... 이게 수학적 공식이 있긴한가.??
+    #아무튼 이해는 했는데.... 좀 그렇다
+    out = []
+    p = 1
+    for i in range(0,len(nums)):
+        out.append(p)
+        p = p * nums[i]
+    
+    p = 1
+    for i in range(len(nums) - 1, 0 - 1, -1):
+        out[i] = out[i] * p
+        p = p*nums[i]
+    return out
+
+def maxProfit(prices):
+    #내 풀이
+    # maxv = 0
+    # for i in range(len(prices)):
+    #     for j in range(i+1,len(prices)):
+    #         if (prices[j] - prices[i]) > maxv:
+    #             maxv = prices[j] - prices[i]
+    # return maxv
+    profit = 0
+    vmax = sys.maxsize
+    for i in prices:
+        vmax = min(vmax,i)
+        profit = max(profit,i-vmax)
+    return profit
+        
         
 
 
@@ -183,6 +212,9 @@ if __name__ == '__main__':
     # print(arrayPairSum([1,4,3,2]))
 ##########################################################################
     # 자신을 제외한 배열의 곱 : 배열은 입력받아 output[i]가 자신을 제외한 나머지 요소의 곱셈 결과가 되도록 출력하라
-    print(productExceptSelf([1,2,3,4]))
+    # print(productExceptSelf([1,2,3,4]))
+##########################################################################
+    #주식을 사고팔기 가장 좋은 시점 : 한 번의 거래로 낼 수 있는 최대 이익을 산출하라
+    maxProfit([7,1,5,3,6,4])
 
 
