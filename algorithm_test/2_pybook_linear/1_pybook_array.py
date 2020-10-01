@@ -180,12 +180,14 @@ def productExceptSelf(nums):
 
 def maxProfit(prices):
     #내 풀이
+    #책 풀이도 이거랑 똑같은데 시간 복잡도가 너무 높아서 실패
     # maxv = 0
     # for i in range(len(prices)):
     #     for j in range(i+1,len(prices)):
     #         if (prices[j] - prices[i]) > maxv:
     #             maxv = prices[j] - prices[i]
     # return maxv
+    #책 풀이
     profit = 0
     vmax = sys.maxsize
     for i in prices:
