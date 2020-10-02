@@ -1,5 +1,12 @@
 import collections
 import re
+import sys
+# import heapq
+# import functools
+# import itertools
+# import math
+# import bisect
+# from typing import *
 
         
 def panrindrom(pan_str):
