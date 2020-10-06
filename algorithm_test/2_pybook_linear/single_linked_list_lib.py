@@ -20,6 +20,15 @@ class SLinkedList:
     def sll_append(self, data):
         #tail에 더했는데 head도 추가 되는 이유 : 둘다 dummy로 초기화 했기 때문에 주소 값이 같다 
         #결과적으로 tail에 추가 한게 head에도 추가 된다.
+        if type(data) == type(SLinkedList()):
+            # data.sll_next()
+            self.tail.next = data.current
+            data.sll_last()
+            self.tail = data.current
+
+            self.num_of_data += (data.num_of_data-1)
+            return
+            
         new_node = sll_node(data)
         self.tail.next = new_node
         self.tail = new_node
@@ -71,7 +80,16 @@ class SLinkedList:
         return pop_data
 
     #TODO:정렬 기능 만들어 보기
-
+    def sll_sort(self):
+        self.sll_next()
+        for i in range(self.num_of_data-1):
+            for _ in range(i,self.num_of_data-1):
+                if self.current.next == None:
+                    return
+                if self.current.data > self.current.next.data :
+                    self.current.data,self.current.next.data = self.current.next.data,self.current.data
+                    # self.current.next,self.current.next.next = self.current.next.next,self.current.next
+                    self.sll_next()
     
     #sll_pop 메소드 (맨 오른쪽에 있는 요소 제거)
     def sll_pop(self):
@@ -103,6 +121,12 @@ class SLinkedList:
         self.current = self.head.next
 
         return self.current.data
+    
+    def sll_last(self):
+        for _ in range(self.num_of_data):
+            self.sll_next()
+        
+        return self.current.data
     #sll_next 메소드(다음 요소로 이동)
     def sll_next(self):
         if self.current.next == None:
@@ -117,12 +141,12 @@ class SLinkedList:
         return self.num_of_data
     #sll_print 메소드 (linked list안의 요소들을 모두 출력)
     def sll_print(self):
-        node = self.head.next
+        self.sll_first()
         print("head -> ", end='')
-        for _ in range(self.num_of_data-1):
-            print(node.data, end = ' -> ')
-            node = node.next
-        print(node.data)
+        for _ in range(self.num_of_data-2):
+            print(self.current.data, end = ' -> ')
+            self.sll_next()
+        print(self.current.data)
     
     def deepcopy(self):
         pop_deepcopy = SLinkedList()

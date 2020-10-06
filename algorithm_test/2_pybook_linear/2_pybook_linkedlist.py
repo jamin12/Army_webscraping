@@ -4,8 +4,8 @@ import sys
 from single_linked_list_lib import *
 
 def isPalindrome(head : SLinkedList):
-#책 풀이 : 연결 리스트가 처음이라서 내 풀이는 없다.
-#이 방법은 역시 별로... pop(0)이 시간 복잡도 O(n)이라서 총 O(n^2)이 되버림
+    #책 풀이 : 연결 리스트가 처음이라서 내 풀이는 없다.
+    #이 방법은 역시 별로... pop(0)이 시간 복잡도 O(n)이라서 총 O(n^2)이 되버림
     # q = []
 
     # if not head:
@@ -21,7 +21,7 @@ def isPalindrome(head : SLinkedList):
     #         return False
 
     # return True
-#데큐를 이용
+    #데큐를 이용
     # q = collections.deque()
 
     # for i in head:
@@ -31,7 +31,7 @@ def isPalindrome(head : SLinkedList):
     #     if q.popleft() != q.pop():
     #         return False
     # return True
-#런너를 이용
+    #런너를 이용
     """
     한개는 두칸씩 한개는 한칸씩 움직이면 한칸씩 움직인게
     두칸씩 움직인것이 끝에 도달 했을때 한칸씩 움직인것은 정확이 반만큼 간다
@@ -63,7 +63,9 @@ def isPalindrome(head : SLinkedList):
     return not rev.current.next
 
 def margeTwoLists(l1,l2):
-    pass
+    l2.sll_next()
+    l1.sll_append(l2)
+    l1.sll_print()
     
 
 #파이썬은 linked list가 일반 list에 구현이 다 되어있다.(이런 개꿀이?? ㅋㅋㅋㅋㅋ)
@@ -85,13 +87,16 @@ if __name__ == "__main__":
     # i.sll_append(1)
     # sPalindrome(i)
 ##########################################################################
-    #두 정렬 리스트의 병합 : 정렬되어 있는 두 연결 리스트를 합쳐라
+    #두 정렬 리스트의 병합 : 정렬되어 있는 두 연결 리스트를 합쳐라(합쳐도 정렬 되어있어야함)
     l1 = SLinkedList()
-    l1.sll_append(1)
-    l1.sll_append(2)
     l1.sll_append(4)
-    l2 = SLinkedList()
-    l2.sll_append(1)
-    l2.sll_append(3)
-    l2.sll_append(4)
-    margeTwoLists(l1,l2)
+    l1.sll_append(2)
+    l1.sll_append(1)
+    # l2 = SLinkedList()
+    # l2.sll_append(1)
+    # l2.sll_append(3)
+    # l2.sll_append(4)
+    l1.sll_sort()
+    l1.sll_print()
+    # margeTwoLists(l1,l2)
+
