@@ -25,7 +25,7 @@ class SLinkedList:
             self.tail.next = data.current
             data.sll_last()
             self.tail = data.current
-
+            data.sll_first()
             self.num_of_data += (data.num_of_data-1)
             return
             
@@ -78,18 +78,6 @@ class SLinkedList:
 
         self.num_of_data -= 1
         return pop_data
-
-    #TODO:정렬 기능 만들어 보기
-    def sll_sort(self):
-        self.sll_next()
-        for i in range(self.num_of_data-1):
-            for _ in range(i,self.num_of_data-1):
-                if self.current.next == None:
-                    return
-                if self.current.data > self.current.next.data :
-                    self.current.data,self.current.next.data = self.current.next.data,self.current.data
-                    # self.current.next,self.current.next.next = self.current.next.next,self.current.next
-                    self.sll_next()
     
     #sll_pop 메소드 (맨 오른쪽에 있는 요소 제거)
     def sll_pop(self):

@@ -3,6 +3,7 @@ import re
 import sys
 from single_linked_list_lib import *
 
+sys.setrecursionlimit(10000)
 def isPalindrome(head : SLinkedList):
     #책 풀이 : 연결 리스트가 처음이라서 내 풀이는 없다.
     #이 방법은 역시 별로... pop(0)이 시간 복잡도 O(n)이라서 총 O(n^2)이 되버림
@@ -63,11 +64,29 @@ def isPalindrome(head : SLinkedList):
     return not rev.current.next
 
 def margeTwoLists(l1,l2):
-    l2.sll_next()
-    l1.sll_append(l2)
-    l1.sll_print()
-    
+    if (not l1) or (l2 and l1.current.data > l2.current.data):
+        l1,l2 = l2,l1
+    temp =l1.sll_next()
+    if temp:
+        l1.current.next = margeTwoLists(l1,l2)
 
+    return l1
+
+def isValid(s):
+    stack = []
+    table = {')':'(',']':'[','}':'{'}
+    a = []
+    b = []
+    if len(s) % 2 == 1:
+        return False
+    for i in s:
+        stack.append(i)
+    for i in range(1,len(s)-2,2):
+        a.append(stack.pop(i))
+    for i in range(0,len(s)-2,2):
+        b.append(stack.pop(i))
+    print(a,b)
+        
 #파이썬은 linked list가 일반 list에 구현이 다 되어있다.(이런 개꿀이?? ㅋㅋㅋㅋㅋ)
 if __name__ == "__main__":
 ##########################################################################
@@ -88,15 +107,18 @@ if __name__ == "__main__":
     # sPalindrome(i)
 ##########################################################################
     #두 정렬 리스트의 병합 : 정렬되어 있는 두 연결 리스트를 합쳐라(합쳐도 정렬 되어있어야함)
-    l1 = SLinkedList()
-    l1.sll_append(4)
-    l1.sll_append(2)
-    l1.sll_append(1)
+    #이건 진짜 너무 하기 싫다 연결 리스트 좀만 공부하고 안되면 다음에
+    # l1 = SLinkedList()
+    # l1.sll_append(1)
+    # l1.sll_append(2)
+    # l1.sll_append(4)
+    # l1.sll_next()
     # l2 = SLinkedList()
     # l2.sll_append(1)
     # l2.sll_append(3)
     # l2.sll_append(4)
-    l1.sll_sort()
-    l1.sll_print()
-    # margeTwoLists(l1,l2)
-
+    # l2.sll_next()
+    # margeTwoLists(l1,l2).sll_print()
+##########################################################################
+    #유요한 괄호 : 괄호로 된 입력값이 올바른지 판별하라.
+    isValid("()[]{}")
