@@ -63,6 +63,10 @@ def isPalindrome(head : SLinkedList):
         return False
     return not rev.current.next
 
+def reverselist(head):
+    for _ in range(head.num_of_data-1):
+        head.sll_append(head.sll_pop())
+    return head
 def margeTwoLists(l1,l2):
     if (not l1) or (l2 and l1.current.data > l2.current.data):
         l1,l2 = l2,l1
@@ -72,21 +76,28 @@ def margeTwoLists(l1,l2):
 
     return l1
 
+
 def isValid(s):
     stack = []
     table = {')':'(',']':'[','}':'{'}
-    a = []
-    b = []
-    if len(s) % 2 == 1:
-        return False
+    for char in s:
+        if char not in table:
+            stack.append(char)
+        elif not stack or table[char] != stack.pop():
+            return False
+    return len(stack) == 0
+    
+def removeDuplicateLetters(s):
+    # 내풀이
+    #정렬 한 뒤 스택에 넣되 중복이 되면 넣지 않음
+    # 사전식 순서 : 사전에서 가장 먼저 나오는 순서(알파벳이나 모음 자음 순서가 아닌 단어 순서)
+    s = sorted(s)
+    stack = []
     for i in s:
-        stack.append(i)
-    for i in range(1,len(s)-2,2):
-        a.append(stack.pop(i))
-    for i in range(0,len(s)-2,2):
-        b.append(stack.pop(i))
-    print(a,b)
-        
+        if i not in stack:
+            stack.append(i)
+    return stack
+    
 #파이썬은 linked list가 일반 list에 구현이 다 되어있다.(이런 개꿀이?? ㅋㅋㅋㅋㅋ)
 if __name__ == "__main__":
 ##########################################################################
@@ -105,7 +116,7 @@ if __name__ == "__main__":
     # i.sll_append(2)
     # i.sll_append(1)
     # sPalindrome(i)
-##########################################################################
+##########################################################################3
     #두 정렬 리스트의 병합 : 정렬되어 있는 두 연결 리스트를 합쳐라(합쳐도 정렬 되어있어야함)
     #이건 진짜 너무 하기 싫다 연결 리스트 좀만 공부하고 안되면 다음에
     # l1 = SLinkedList()
@@ -120,5 +131,19 @@ if __name__ == "__main__":
     # l2.sll_next()
     # margeTwoLists(l1,l2).sll_print()
 ##########################################################################
+    #역순 연결 리스트 : 연결 리스트를 뒤집어라
+    i = SLinkedList()
+    i.sll_append(1)
+    i.sll_append(2)
+    i.sll_append(3)
+    i.sll_append(4)
+    i.sll_append(5)
+    print(reverselist(i))
+##########################################################################
     #유요한 괄호 : 괄호로 된 입력값이 올바른지 판별하라.
-    isValid("()[]{}")
+    # print(isValid("()[]{}"))
+    # print(isValid("{([])}"))
+##########################################################################
+    # 중복 문자 제거: 중복된 문자를 제외하고 사전식 순서로 나여하라
+    # print(removeDuplicateLetters("bcabc"))
+    # print(removeDuplicateLetters("cbacdcbc"))
