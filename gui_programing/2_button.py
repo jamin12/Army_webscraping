@@ -28,6 +28,7 @@ btn6.pack()
 def btncmd():
     print("버튼이 클릭 되었어요")
 
+#command : 버튼이 눌려졋을때 발생하는 이벤트
 btn7 = Button(root, text="동작하는 버튼",command=btncmd)
 btn7.pack()
 
