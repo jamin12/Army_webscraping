@@ -12,6 +12,7 @@ def create_new_file():
 menu = Menu(root)
 
 # File 메뉴
+#tearoff : 메뉴 상단을 눌렀을때 메뉴의 창이 따로 안뜨게 하도록 설정
 menu_file = Menu(menu, tearoff = 0)
 menu_file.add_command(label = "New File",command = create_new_file)
 menu_file.add_command(label = "New Window")

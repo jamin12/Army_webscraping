@@ -67,6 +67,7 @@ def reverselist(head):
     for _ in range(head.num_of_data-1):
         head.sll_append(head.sll_pop())
     return head
+    
 def margeTwoLists(l1,l2):
     if (not l1) or (l2 and l1.current.data > l2.current.data):
         l1,l2 = l2,l1
