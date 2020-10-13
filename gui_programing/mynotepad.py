@@ -1,5 +1,6 @@
 from tkinter import *
 import tkinter.messagebox as msgbox
+import os
 
 root = Tk()
 root.title("제목 없음 - Windows 메모장") # 타이틀 설정
@@ -12,8 +13,8 @@ scrollbar = Scrollbar(root)
 scrollbar.pack(side = "right",fill = "y")
 
 #텍스트 에리아 설정 yscrollcommand : 스크롤 사용 가능하게 하는 명령어
-txt = Text(root,height = 1080,width = 1920, yscrollcommand=scrollbar.set)
-txt.pack(side = "left")
+txt = Text(root, yscrollcommand=scrollbar.set)
+txt.pack(side = "left",fill = "both", expand = True)
 
 #스크롤바와 txt가 서로 상호 작용 할수 있도록 해줌
 scrollbar.config(command = txt.yview)
@@ -24,6 +25,7 @@ def save():
 
 # 파일 열기 
 def fileopen():
+    # if os.path.isfile(value):  # value의 파일이 있으면 true 없으면 flase를 반환 
     txt.delete("1.0",END)
     try:
         with open("mynote.txt","rt") as f:
