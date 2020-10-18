@@ -80,3 +80,5 @@ btn_0.grid(row=5,column=0,columnspan=2,sticky=N+E+W+S,padx=3,pady=3)#현재 위�
 btn_point.grid(row=5,column=2,sticky=N+E+W+S,padx=3,pady=3)
 
 root.mainloop()
+
+print("hihi")
