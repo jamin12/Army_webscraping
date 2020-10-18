@@ -4,7 +4,7 @@ def solution(bridge_length, weight, truck_weights):
     t = collections.deque()
     truck_weights.reverse()
     deq = collections.deque()
- 
+
     while True:
         if t:
             t = collections.deque(map(lambda x: x+1,t))

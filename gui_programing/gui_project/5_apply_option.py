@@ -4,6 +4,7 @@ import tkinter.messagebox as msgbox
 from tkinter import filedialog
 from PIL import Image
 import os
+# from test import *
 
 root = Tk()
 root.title("Nado Photo")
