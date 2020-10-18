@@ -6,8 +6,10 @@ import re
 
 def into_request(url):
     #requests로 접속하는 방법
+    #유저 에이전트
+    headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Whale/2.8.107.16 Safari/537.36"}
     # 사이트 url에 접속 후 Beautifulsoup 객체에 lxml로 저장
-    res = requests.get(url)
+    res = requests.get(url, headers = headers)
     res.raise_for_status() # 위에 코드가 이상이 있을 경우 아래 코드 실행 안됨
     soup = BeautifulSoup(res.text,"lxml")
     return soup
