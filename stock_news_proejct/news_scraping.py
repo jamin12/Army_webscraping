@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
+import re
 
 def into_request(url):
 #requests로 접속하는 방법
@@ -29,12 +30,32 @@ def into_selenium(url):
     soup = BeautifulSoup(broswer.page_source,'lxml')
     return soup
 
-def samsung_news():
-    url = "https://search.naver.com/search.naver?where=news&sm=tab_jum&query=%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90&nso=so%3Ar%2Cp%3Aall%2Ca%3Aall"
+def select_news(name):
+    url = f"https://search.naver.com/search.naver?where=news&query={name}&sm=tab_srt&sort=0&photo=0&field=0&reporter_article=&pd=0&ds=&de=&docid=&nso=so%3Add%2Cp%3Aall%2Ca%3Aall&mynews=0&refresh_start=0&related=0"
     soup = into_request(url)
+    #전체 뉴스 목록 가져오기
     all_news = soup.find("div", attrs = {"class" : "news mynews section _prs_nws"})
     pick_news = all_news.find("ul", attrs = {"class":"type01"})
-    pick = pi
+    #뉴스 고르기
+
+    picks = pick_news.find_all("li",attrs = {"id": re.compile(r"sp_nws\d?")})
+    for idx,pick in enumerate(picks):
+        #뉴스 타이틀 이르
+        news_title = pick.find("dt")
+        #뉴스 내용  
+        news_content = pick.find_all("dd")[1]
+        #이미지 가져오기
+        news_image = pick.find("img")["src"]
+        if news_image.startswith("//"):
+            news_image = "https:" + news_image
+
+        image_res = requests.get(news_image)
+        image_res.raise_for_status()
+        with open(f"text{idx}.png","wb") as f:
+            f.write(image_res.content)
+
+
+
 if __name__ == "__main__":
-    samsung_news()
+    select_news("삼성전자")
 
