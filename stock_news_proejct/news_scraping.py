@@ -31,6 +31,7 @@ def into_selenium(url):
     return soup
 
 def select_news(name):
+    #TODO : 정렬 기준 : 0 관련도순, 1 최신순
     url = f"https://search.naver.com/search.naver?where=news&query={name}&sm=tab_srt&sort=0&photo=0&field=0&reporter_article=&pd=0&ds=&de=&docid=&nso=so%3Add%2Cp%3Aall%2Ca%3Aall&mynews=0&refresh_start=0&related=0"
     soup = into_request(url)
     #전체 뉴스 목록 가져오기
