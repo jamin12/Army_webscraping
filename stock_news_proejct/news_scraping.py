@@ -7,11 +7,11 @@ from PIL import Image as pilimg
 #requests로 접속하는 방법
 def into_request(url):
     #유저 에이전트
-    headers = {'User-Agent':"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Whale/2.8.107.16 Safari/537.36"}
+    headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Whale/2.8.107.16 Safari/537.36"}
     # 사이트 url에 접속 후 Beautifulsoup 객체에 lxml로 저장
     res = requests.get(url,headers = headers)
     res.raise_for_status() # 위에 코드가 이상이 있을 경우 아래 코드 실행 안됨
-    soup = BeautifulSoup(res.text,"xml")
+    soup = BeautifulSoup(res.text,"lxml")
     return soup
 
 #selenium으로 접속하는 방법
@@ -32,14 +32,15 @@ def into_selenium(url):
     return soup
 
 
+#주식 정보
+class stock_info:
+    def __init__(self,stock_name):
+        self.stock_name = stock_name
 
-class get_news: 
-    def __init__(self,news_name):
-        self.news_name = news_name
-        
-    def select_news(self):
+    #주식 뉴스 가져오기
+    def stock_news(self):
         #TODO : 정렬 기준 : 0 관련도순, 1 최신순
-        url = f"https://search.naver.com/search.naver?where=news&query={self.news_name}&sm=tab_srt&sort=0&photo=0&field=0&reporter_article=&pd=0&ds=&de=&docid=&nso=so%3Add%2Cp%3Aall%2Ca%3Aall&mynews=0&refresh_start=0&related=0"
+        url = f"https://search.naver.com/search.naver?where=news&query={self.stock_name}&sm=tab_srt&sort=0&photo=0&field=0&reporter_article=&pd=0&ds=&de=&docid=&nso=so%3Add%2Cp%3Aall%2Ca%3Aall&mynews=0&refresh_start=0&related=0"
         soup = into_request(url)
         #전체 뉴스 목록 가져오기
         all_news = soup.find("div", attrs = {"class" : "news mynews section _prs_nws"})
@@ -69,11 +70,22 @@ class get_news:
         yield image_res
 
 
+    def securities_information(self):
+        stock_code = {"삼성전자" : "005930"}
+        url = f"https://finance.naver.com/item/main.nhn?code={stock_code[self.stock_name]}"
+        soup = into_request(url)
+
+        securities_information = soup.find("div", attrs = {"class" : "rate_info"})
+        current_costs = securities_information.find("div", attrs = {"class" : "today"}).find("p", attrs = {"class" : "no_today"})
+        print(current_costs.get_text().strip())
+
+
 if __name__ == "__main__":
-    a = get_news("삼성전자")
-    b = a.select_news()
-    print(next(b)[0])
-    next(b)
+    a = stock_info("삼성전자")
+    b = a.stock_news()
+    # next(b)[0]
+    a.securities_information()
+
     
 
 
