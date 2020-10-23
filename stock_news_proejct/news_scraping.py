@@ -32,6 +32,7 @@ def into_selenium(url):
     return soup
 
 
+#TODO : 다음 프로젝트 증권사 API활용하기
 #주식 정보
 class stock_info:
     def __init__(self,stock_name):
@@ -75,9 +76,68 @@ class stock_info:
         url = f"https://finance.naver.com/item/main.nhn?code={stock_code[self.stock_name]}"
         soup = into_request(url)
 
-        securities_information = soup.find("div", attrs = {"class" : "rate_info"})
-        current_costs = securities_information.find("div", attrs = {"class" : "today"}).find("p", attrs = {"class" : "no_today"})
-        print(current_costs.get_text().strip())
+        '''
+        웹에서 정보 가져오기
+        '''
+        #전체적인 주식 정보 가져오기
+        web_securities_information = soup.find("div", attrs = {"class" : "rate_info"})
+        #기본적인 정보(현재 금액 , 등락률 가져오기)
+        web_basic_information = web_securities_information.find("div", attrs = {"class" : "today"})
+        #현재 가격 가져오기
+        web_current_costs = web_basic_information.find("p", attrs = {"class" : "no_today"})
+        #전일 대비 등락률 저장
+        web_compare_yesterday = web_basic_information.find("p", attrs = {"class" : "no_exday"})
+        #전일 대비 가격
+        web_updown_costs = web_compare_yesterday.find_all("em")[0]
+        #전일 대비 등락률
+        web_updown_rate = web_compare_yesterday.find_all("em")[1]
+        #주식 세부 정보(전일 가격, 고가 , 저가 등)
+        web_major_information = web_securities_information.find("table")
+        #전일 가격 가져오기
+        web_yesterday_costs = web_major_information.find_all("tr")[0].find_all("em")[0]
+        #고가 정보
+        web_high_costs = web_major_information.find_all("tr")[0].find_all("em")[1]
+        #시가 정보
+        web_start_costs = web_major_information.find_all("tr")[1].find_all("em")[0]
+        #저가
+        web_low_costs = web_major_information.find_all("tr")[1].find_all("em")[1]
+        #차트 이미지
+        web_img_chart = soup.find("img",attrs = {"id" : "img_chart_area"})["src"]
+        if web_img_chart.startswith("//"):
+            web_img_chart = "https:" + web_img_chart
+        
+        '''
+        웹에서 가져온 정보 저장
+        '''
+        # 현재 가격 : 두번씩 나오는 버그가 있어 반 자름
+        current_costs = web_current_costs.get_text().strip()
+        current_costs = current_costs[len(current_costs)//2:].strip()
+        #전일대비 가격
+        updown_costs = re.sub("[^a-z0-9]",'',web_updown_costs.get_text().strip())
+        updown_costs = updown_costs[len(updown_costs)//2:]
+        #등락률
+        updown_rate = re.sub("[^a-z0-9]",'',web_updown_rate.get_text().strip())
+        updown_rate = updown_rate[len(updown_rate)//2:]
+        #전일 가격 
+        yesterday_costs = web_yesterday_costs.get_text().strip()
+        yesterday_costs = yesterday_costs[len(yesterday_costs)//2:].strip()
+        #고가
+        high_costs = web_high_costs.get_text().strip()
+        high_costs = high_costs[len(high_costs)//2:].strip()
+        #시가
+        start_costs = web_start_costs.get_text().strip()
+        start_costs = start_costs[len(start_costs)//2:].strip()
+        #저가
+        low_costs = web_low_costs.get_text().strip()
+        low_costs = low_costs[len(low_costs)//2:].strip()
+        #이미지
+        image_res = requests.get(web_img_chart)
+        image_res.raise_for_status()
+
+
+        
+
+
 
 
 if __name__ == "__main__":
@@ -85,7 +145,5 @@ if __name__ == "__main__":
     b = a.stock_news()
     # next(b)[0]
     a.securities_information()
-
-    
 
 
