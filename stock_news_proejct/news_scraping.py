@@ -70,7 +70,7 @@ class stock_info:
         # 뉴스 이미지 반환
         yield image_res
 
-
+    #주식 정보 가저오기
     def securities_information(self):
         stock_code = {"삼성전자" : "005930"}
         url = f"https://finance.naver.com/item/main.nhn?code={stock_code[self.stock_name]}"
@@ -133,17 +133,16 @@ class stock_info:
         #이미지
         image_res = requests.get(web_img_chart)
         image_res.raise_for_status()
-
-
         
-
 
 
 
 if __name__ == "__main__":
     a = stock_info("삼성전자")
     b = a.stock_news()
-    # next(b)[0]
-    a.securities_information()
-
-
+    c = next(b)
+    for i in c:
+        print(i)
+    # a.securities_information()
+    
+    
