@@ -4,6 +4,11 @@
     box-sizing: border-box;
 }
 
+html,body{
+    margin: 0;
+    padding: 0;
+}
+
 .blind {
     position: absolute;
     clip: rect(0 0 0 0);
@@ -13,7 +18,7 @@
     overflow: hidden;
 }
 
-#header-center{
+.center-aling{
     margin: 0 auto;
     width: 1080px;
 }
@@ -78,4 +83,29 @@
     background-repeat: no-repeat;
     vertical-align: top;
     background-size: 440px 410px;
+}
+
+/* 화면에 고정 (스크롤 내려도 그자리에 고정되어있음) */
+#fixed{
+    position: fixed;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+
+}
+
+nav ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav li{
+    display: inline-block;
+    
+}
+
+nav li a{
+    text-decoration: none;
 }
