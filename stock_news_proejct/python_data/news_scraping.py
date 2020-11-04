@@ -35,40 +35,41 @@ def into_selenium(url):
 #TODO : 다음 프로젝트 증권사 API활용하기
 #주식 정보
 class stock_info:
-    def __init__(self,stock_name):
+    def __init__(self,stock_name : str,stock_ailgn : int) -> list:
         self.stock_name = stock_name
+        self.stock_ailgn = stock_ailgn
 
     #주식 뉴스 가져오기
     def stock_news(self):
         #TODO : 정렬 기준 : 0 관련도순, 1 최신순
-        url = f"https://search.naver.com/search.naver?where=news&query={self.stock_name}&sm=tab_srt&sort=0&photo=0&field=0&reporter_article=&pd=0&ds=&de=&docid=&nso=so%3Add%2Cp%3Aall%2Ca%3Aall&mynews=0&refresh_start=0&related=0"
+        url = f"https://search.naver.com/search.naver?where=news&query={self.stock_name}&sm=tab_srt&sort={self.stock_ailgn}&photo=0&field=0&reporter_article=&pd=0&ds=&de=&docid=&nso=so%3Ar%2Cp%3Aall%2Ca%3Aall&mynews=0&refresh_start=0&related=0"
         soup = into_request(url)
         #전체 뉴스 목록 가져오기
-        all_news = soup.find("div", attrs = {"class" : "news mynews section _prs_nws"})
-        pick_news = all_news.find("ul", attrs = {"class":"type01"})
+        all_news = soup.find("div", attrs = {"class" : "group_news"})
+        pick_news = all_news.find("ul", attrs = {"class":"list_news"})
         #뉴스 고르기
         picks = pick_news.find_all("li",attrs = {"id": re.compile(r"sp_nws\d?")})
         news_title = []
         news_content = []
-        image_res = []
+        # image_res = []
         for idx,pick in enumerate(picks):
             #뉴스 타이틀
-            news_title.append(pick.find("dt").get_text())
+            news_title.append(pick.find("a",attrs = {"class" : "news_tit"}).get_text())
             #뉴스 내용  
-            news_content.append(pick.find_all("dd")[1].get_text())
+            news_content.append(pick.find("a",attrs = {"class" : "api_txt_lines dsc_txt_wrap"}).get_text())
             #이미지 가져오기
-            news_image = pick.find("img")["src"]
-            if news_image.startswith("//"):
-                news_image = "https:" + news_image
+        #     news_image = pick.find("img")["src"]
+        #     if news_image.startswith("//"):
+        #         news_image = "https:" + news_image
         #TODO 16진수 이미지 파일 읽기
-            image_res.append(requests.get(news_image))
-            image_res[idx].raise_for_status()
+        #     image_res.append(requests.get(news_image))
+        #     image_res[idx].raise_for_status()
         # 뉴스 타이틀 반환
         yield news_title
         # 뉴스 내용 반환
         yield news_content
         # 뉴스 이미지 반환
-        yield image_res
+        # yield image_res
 
     #주식 정보 가저오기
     def securities_information(self):
@@ -138,11 +139,16 @@ class stock_info:
 
 
 if __name__ == "__main__":
-    a = stock_info("삼성전자")
+    a = stock_info("삼성전자",0)
     b = a.stock_news()
     c = next(b)
+    d = next(b)
     for i in c:
         print(i)
+        break
+    for i in d:
+        print(i)
+        break
     # a.securities_information()
     
     
