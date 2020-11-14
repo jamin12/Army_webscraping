@@ -18,7 +18,7 @@ def index():
         value2 = google_keyword.get_keyword_number(key2)
 
         #사용자 보낼 데이터
-        data = {'key1':value1,'key2':value2}
+        data = {key1:value1,key2:value2}
 
         return render_template('9_index.html',data = data)
 
