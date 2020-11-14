@@ -30,7 +30,7 @@
     		"\t# 사이트 url에 접속 후 Beautifulsoup 객체에 lxml로 저장",
     		"\tres = requests.get(url,headers = headers)",
     		"\tres.raise_for_status() # 위에 코드가 이상이 있을 경우 아래 코드 실행 안됨",
-    		"\tsoup = BeautifulSoup(res.text,\"xml\")",
+    		"\tsoup = BeautifulSoup(res.text,\"lxml\")",
 			"\treturn soup",
 			"",
     		"#selenium으로 접속하는 방법",
